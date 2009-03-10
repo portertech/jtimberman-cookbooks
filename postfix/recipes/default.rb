@@ -35,3 +35,6 @@ end
     notifies :restart, resources(:service => "postfix")
   end
 end
+
+# If using iptables, uncomment
+# iptables_rule "port_smtp"
