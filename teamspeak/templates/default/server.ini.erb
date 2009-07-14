@@ -13,12 +13,12 @@ MessageTypes=LMTALL
 MessageDepths=LMDALL
 
 [WebPost]
-AdminEmail=gaming@housepub.org
+AdminEmail=teamspeak@<%= @node[:teamspeak][:domain] %>
 ISPLinkURL=na
 ISPName=Private
-ISPCountryNumber=0
+ISPCountryNumber=2457
 Enabled=1
-PostURL=
+PostURL=<%= @node[:teamspeak][:posturl] %>
 ListPublic=0
 UserAgent=teamspeak
 
