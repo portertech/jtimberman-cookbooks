@@ -29,6 +29,7 @@ template "/etc/teamspeak-server/server.ini" do
   owner "root"
   group "root"
   mode "0600"
+  notifies :restart, resources(:service => "teamspeak-server")
 end
 
 include_recipe "php::php5"
