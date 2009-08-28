@@ -49,7 +49,7 @@ end
 
 case node[:platform]
 when "ubuntu"
-  if node[:platform_version] >= 9.10
+  if node[:platform_version] >= "9.10"
     template "/etc/rsyslog.d/50-default.conf" do
       source "50-default.conf.erb"
       owner "root"
