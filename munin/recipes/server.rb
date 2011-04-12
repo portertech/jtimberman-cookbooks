@@ -18,6 +18,7 @@
 #
 
 munin_servers = search(:node, "munin:[* TO *] AND chef_environment:#{node.chef_environment}")
+munin_servers.sort! { |a,b| a[:fqdn] <=> b[:fqdn] }
 
 if node[:public_domain]
   case node.chef_environment
@@ -52,6 +53,18 @@ else
     group "root"
     backup 0
   end
+end
+
+
+if node[:public_domain]
+  case node[:app_environment]
+  when "production"
+    public_domain = node[:public_domain]
+  else
+    public_domain = "#{node[:app_environment]}.#{node[:public_domain]}"
+  end
+else
+  public_domain = node[:domain]
 end
 
 template "/etc/munin/munin.conf" do
