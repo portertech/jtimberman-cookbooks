@@ -1,10 +1,10 @@
 #
 # Author:: Joshua Timberman <joshua@opscode.com>
 # Author:: Joshua Sierles <joshua@37signals.com>
-# Cookbook Name:: chef
-# Recipe:: server
+# Cookbook Name:: chef-server
+# Recipe:: default
 #
-# Copyright 2008-2009, Opscode, Inc
+# Copyright 2008-2011, Opscode, Inc
 # Copyright 2009, 37signals
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,38 +19,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-root_group = value_for_platform(
-  "openbsd" => { "default" => "wheel" },
-  "freebsd" => { "default" => "wheel" },
-  "default" => "root"
-)
-
-include_recipe "chef::client"
-
-%w{chef-solr chef-solr-indexer chef-server}.each do |svc|
-  service svc do
-    action :nothing
-  end
-end
-
-if node[:chef][:webui_enabled]
-  service "chef-server-webui" do
-    action :nothing
-  end
-end
-
-template "/etc/chef/server.rb" do
-  source "server.rb.erb"
-  owner "root"
-  group root_group
-  mode "644"
-  if node[:chef][:webui_enabled]
-    notifies :restart, resources( :service => [ "chef-solr", "chef-solr-indexer", "chef-server", "chef-server-webui" ]), :delayed
-  else
-    notifies :restart, resources( :service => [ "chef-solr", "chef-solr-indexer", "chef-server" ]), :delayed
-  end
-end
-
+require 'open-uri'
 http_request "compact chef couchDB" do
   action :post
   url "#{Chef::Config[:couchdb_url]}/chef/_compact"
@@ -65,6 +34,7 @@ http_request "compact chef couchDB" do
 end
 
 %w(nodes roles registrations clients data_bags data_bag_items users).each do |view|
+
   http_request "compact chef couchDB view #{view}" do
     action :post
     url "#{Chef::Config[:couchdb_url]}/chef/_compact/#{view}"
@@ -77,4 +47,5 @@ end
       end
     end
   end
+
 end
