@@ -17,7 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-case node[:platform] 
+case node['platform'] 
 when "ubuntu","debian"
   package "ntpdate" do
     action :install
@@ -26,6 +26,25 @@ end
 
 package "ntp" do
   action :install
+end
+
+service node['ntp']['service'] do
+  action :start
+end
+
+directory "/var/lib/ntp" do
+  owner "ntp"
+  group "ntp"
+  mode 0755
+end
+
+case node['platform']
+when "ubuntu","debian"
+  directory "/var/log/ntpstats" do
+    owner "ntp"
+    group "ntp"
+    mode 0755
+  end
 end
 
 template "/etc/ntp.conf" do
@@ -37,6 +56,6 @@ template "/etc/ntp.conf" do
 end
 
 service "ntp" do
-  service_name node[:ntp][:service]
+  service_name node['ntp']['service']
   action [:enable, :start]
 end
