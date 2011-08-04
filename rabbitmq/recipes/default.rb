@@ -45,7 +45,12 @@ template "/etc/rabbitmq/rabbitmq-env.conf" do
   owner "root"
   group "root"
   mode 0644
+  notifies :restart, "service[rabbitmq-server]"
 end
 
 package "rabbitmq-server"
 
+service "rabbitmq-server" do
+  stop_command "/usr/sbin/rabbitmqctl stop"
+  action [:enable, :start]
+end
