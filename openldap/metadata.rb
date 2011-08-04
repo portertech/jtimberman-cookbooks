@@ -13,7 +13,7 @@ recipe            "openldap::server", "Set up openldap to be a slapd server"
   supports os
 end
 
-%w{ openssh nscd }.each do |cb|
+%w{ openssh nscd apt }.each do |cb|
   depends cb
 end
 
