@@ -19,17 +19,9 @@
 
 ::Chef::Resource::Package.send(:include, Opscode::Mysql::Helpers)
 
-package "mysql-client" do
-  package_name value_for_platform(
-    [ "centos", "redhat", "suse", "fedora"] => { "default" => "mysql" },
-    "default" => "mysql-client"
-  )
-  action :install
-end
-
 package "mysql-devel" do
   package_name begin
-    if platform?(%w{ centos redhat suse fedora })
+    if platform?(%w{ redhat centos scientific fedora suse })
       "mysql-devel"
     elsif debian_before_squeeze? || ubuntu_before_lucid?
       "libmysqlclient15-dev"
@@ -40,21 +32,30 @@ package "mysql-devel" do
   action :install
 end
 
-if platform?(%w{ debian ubuntu redhat centos fedora suse })
+package "mysql-client" do
+  package_name value_for_platform(
+    [ "centos", "redhat", "scientific", "fedora", "suse"] => { "default" => "mysql" },
+    "default" => "mysql-client"
+  )
+  action :install
+end
 
-  package "mysql-ruby" do
+# fullstack
+if node[:chef_packages][:chef][:chef_root] =~ /^\/opt\/opscode\/embedded/ or
+   ! platform?(%w{debian ubuntu redhat centos scientific fedora suse}) then
+
+   gem_package "mysql" do
+    action :install
+  end
+
+else
+  package "mysql ruby libraries" do
     package_name value_for_platform(
-      [ "centos", "redhat", "suse", "fedora"] => { "default" => "ruby-mysql" },
+      [ "centos", "redhat", "suse", "fedora", "scientific"] => { "default" => "ruby-mysql" },
       ["debian", "ubuntu"] => { "default" => 'libmysql-ruby' },
       "default" => 'libmysql-ruby'
     )
     action :install
   end
-
-else
-
-  gem_package "mysql" do
-    action :install
-  end
-
 end
+
