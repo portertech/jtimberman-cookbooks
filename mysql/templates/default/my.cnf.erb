@@ -113,6 +113,7 @@ max_binlog_size         = <%= node['mysql']['tunable']['max_binlog_size'] %>
 #skip-innodb
 innodb_buffer_pool_size = <%= node['mysql']['tunable']['innodb_buffer_pool_size'] %>
 
+<% case node[:platform] -%>
 <% when "redhat", "centos", "scientific" -%>
 <% if node['platform_version'].to_i < 6 -%>
 #
