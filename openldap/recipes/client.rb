@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+include_recipe "openldap"
+
 package "ldap-utils" do
   action :upgrade
 end
