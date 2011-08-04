@@ -63,13 +63,20 @@ It is quite useful as is, but clustering configuration does not currently do the
 
 The rabbitmq::chef recipe was only used for the chef-server cookbook and has been moved to chef-server::rabbitmq.
 
+Changes
+=======
+
+## v1.2.2:
+
+* COOK-585, add service resource with stop_command to use rabbitmqctl
+
 License and Author
 ==================
+
 Author:: Benjamin Black <b@b3k.us>
-
 Author:: Daniel DeLeo <dan@kallistec.com>
-
 Author:: Matt Ray <matt@opscode.com>
+Author:: Joshua Timberman <joshua@opscode.com>
 
 Copyright:: 2009-2011 Opscode, Inc
 
