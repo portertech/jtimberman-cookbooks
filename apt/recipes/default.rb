@@ -21,7 +21,7 @@
 # Run apt-get update to create the stamp file
 execute "apt-get-update" do
   command "apt-get update"
-  not_if do File.exists?('/var/lib/apt/periodic/update-success-stamp') end
+  not_if do ::File.exists?('/var/lib/apt/periodic/update-success-stamp') end
 end
 
 # provides /var/lib/apt/periodic/update-success-stamp on apt-get update
@@ -32,8 +32,8 @@ end
 execute "apt-get-update-periodic" do
   command "apt-get update"
   only_if do
-    File.exists?('/var/lib/apt/periodic/update-success-stamp') &&
-    File.mtime('/var/lib/apt/periodic/update-success-stamp') < Time.now - 86400
+    ::File.exists?('/var/lib/apt/periodic/update-success-stamp') &&
+    ::File.mtime('/var/lib/apt/periodic/update-success-stamp') < Time.now - 86400
   end
 end
 
