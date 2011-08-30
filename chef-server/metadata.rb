@@ -7,6 +7,7 @@ version           "0.99.11"
 recipe            "chef-server", "Compacts the Chef Server CouchDB."
 recipe            "chef-server::rubygems-install", "Set up rubygem installed chef server."
 recipe            "chef-server::apache-proxy", "Configures Apache2 proxy for API and WebUI"
+recipe            "chef-server::rabbitmq", "Installs and configures rabbitmq for chef server."
 
 %w{ ubuntu debian redhat centos fedora freebsd openbsd }.each do |os|
   supports os
