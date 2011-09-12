@@ -1,7 +1,7 @@
 # Cookbook Name:: bluepill
 # Attributes:: default
 # 
-# Copyright 2010, Opscode, Inc.
+# Copyright 2010-2011, Opscode, Inc.
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-default["bluepill"]["bin"] = "#{languages[:ruby][:bin_dir]}/bluepill"
+default["bluepill"]["bin"] = "#{Gem.default_bindir}/bluepill"
 default["bluepill"]["logfile"] = "/var/log/bluepill.log"
 default["bluepill"]["conf_dir"] = "/etc/bluepill"
 default["bluepill"]["pid_dir"] = "/var/run/bluepill"

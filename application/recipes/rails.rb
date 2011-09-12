@@ -168,7 +168,7 @@ deploy_revision app['id'] do
         to "#{app['deploy_to']}/shared/vendor_bundle"
       end
       common_groups = %w{development test cucumber staging production}
-      execute "bundle install --deployment --without #{(common_groups -([node.chef_environment])).join(' ')}" do
+      execute "#{Gem.default_bindir}/bundle install --deployment --without #{(common_groups -([node.chef_environment])).join(' ')}" do
         ignore_failure true
         cwd release_path
       end
@@ -185,7 +185,7 @@ deploy_revision app['id'] do
       #
       # maybe worth doing run_symlinks_before_migrate before before_migrate callbacks,
       # or an add'l callback.
-      execute "(ln -s ../../../shared/database.yml config/database.yml && rake gems:install); rm config/database.yml" do
+      execute "(ln -s ../../../shared/database.yml config/database.yml && #{Gem.default_bindir}/rake gems:install); rm config/database.yml" do
         ignore_failure true
         cwd release_path
       end
@@ -199,7 +199,7 @@ deploy_revision app['id'] do
 
   if app['migrate'][node.chef_environment] && node[:apps][app['id']][node.chef_environment][:run_migrations]
     migrate true
-    migration_command app['migration_command'] || "rake db:migrate"
+    migration_command app['migration_command'] || "#{Gem.default_bindir}/rake db:migrate"
   else
     migrate false
   end
