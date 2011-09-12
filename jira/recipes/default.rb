@@ -43,12 +43,14 @@ unless FileTest.exists?(node[:jira][:install_path])
     # These values don't always come from attributes.
     #mysql_root_password = node[:mysql][:server_root_password]
     #mysql_host = node[:jira][:database_host]
-    mysql_root_password = search(:node, 'recipes:mysql\:\:server').first.mysql.server_root_password
-    mysql_host = search(:node, 'recipes:mysql\:\:server').first.ipaddress
+    mysql_node = search(:node, 'recipes:mysql\:\:server').first || node
+    mysql_root_password = mysql_node['mysql']['server_root_password']
+    mysql_host = mysql_node['ipaddress']
     node[:jira][:database_host] = mysql_host
 
+    include_recipe "mysql::client"
     # mysql should be running
-    if mysql_host == "localhost"
+    if mysql_host == node['ipaddress']
       include_recipe "mysql::server"
 
       # Assume a local mysql server isn't clustered and should be running
@@ -60,9 +62,6 @@ unless FileTest.exists?(node[:jira][:install_path])
       mysql_grant_host = node[:ipaddress]
     end
     
-    # Configure the ability to access mysql from the cookbook
-    package "libmysql-ruby"
-
     ruby_block "Create database + execute grants" do
       block do 
         require 'rubygems'

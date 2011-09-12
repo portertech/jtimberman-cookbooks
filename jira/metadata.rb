@@ -4,7 +4,7 @@ license           "Apache 2.0"
 description       "Installs and configures jira"
 version           "0.8.2"
 depends           "openssl"
-recommends        "mysql"
+depends           "mysql"
 
 recipe "jira", "Installs and configures Jira"
 
