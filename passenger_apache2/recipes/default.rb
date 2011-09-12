@@ -47,6 +47,6 @@ gem_package "passenger" do
 end
 
 execute "passenger_module" do
-  command 'passenger-install-apache2-module --auto'
+  command "#{Gem.default_bindir}/passenger-install-apache2-module --auto"
   creates node[:passenger][:module_path]
 end
