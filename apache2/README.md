@@ -12,6 +12,32 @@ Debian-style Apache configuration uses scripts to manage modules and sites (vhos
 
 This cookbook ships with templates of these scripts for non Debian/Ubuntu platforms. The scripts are used in the __Definitions__ below.
 
+Changes
+=======
+
+## v1.0.2
+
+* Tickets resolved in this release: COOK-788, COOK-782, COOK-780
+
+## v1.0.0
+
+* Red Hat family support is greatly improved, all recipes except `god_monitor` converge.
+* Recipe `mod_auth_openid` now works on RHEL family distros
+* Recipe `mod_php5` will now remove config from package on RHEL family so it doesn't conflict with the cookbook's.
+* Added `php5.conf.erb` template for `mod_php5` recipe.
+* Create the run state directory for `mod_fcgid` to prevent a startup error on RHEL version 6.
+* New attribute `node['apache']['lib_dir']` to handle lib vs lib64 on RHEL family distributions.
+* New attribute `node['apache']['group']`.
+* Scientific Linux support added.
+* Use a file resource instead of the generate-module-list executed perl script on RHEL family.
+* "default" site can now be disabled.
+* web_app now has an "enable" parameter.
+* Support for dav_fs apache module.
+* Tickets resolved in this release: COOK-754, COOK-753, COOK-665, COOK-624, COOK-579, COOK-519, COOK-518
+* Fix node references in template for a2dissite
+* Use proper user and group attributes on files and templates.
+* Replace the anemic README.rdoc with this new and improved superpowered README.md :).
+
 Requirements
 ============
 
@@ -75,6 +101,9 @@ These are general settings used in recipes and templates. Default values are not
 * `node['apache']['keepalive']` - Value for the KeepAlive directive. Default is On.
 * `node['apache']['keepaliverequests']` - Value for MaxKeepAliveRequests. Default is 100.
 * `node['apache']['keepalivetimeout']` - Value for the KeepAliveTimeout directive. Default is 5.
+* `node['apache']['default_modules']` - Array of module names. Can take "mod_FOO" or "FOO" as names, where FOO is the apache module, e.g. "`mod_status`" or "`status`".
+
+The modules listed in `default_modules` will be included as recipes in `recipe[apache::default]`.
 
 Prefork attributes
 ------------------
@@ -111,7 +140,7 @@ On RHEL Family distributions, certain modules ship with a config file with the p
 default
 -------
 
-The default recipe does a number of things to set up Apache HTTPd.
+The default recipe does a number of things to set up Apache HTTPd. It also includes a number of modules based on the attribute `node['apache']['default_modules']` as recipes.
 
 mod\_auth\_openid
 -----------------
@@ -291,32 +320,6 @@ Using this cookbook is relatively straightforward. Add the desired recipes to th
     )
 
 For examples of using the definitions in your own recipes, see their respective sections above.
-
-Changes
-=======
-
-## v1.0.2
-
-* Tickets resolved in this release: COOK-788, COOK-782, COOK-780
-
-## v1.0.0
-
-* Red Hat family support is greatly improved, all recipes except `god_monitor` converge.
-* Recipe `mod_auth_openid` now works on RHEL family distros
-* Recipe `mod_php5` will now remove config from package on RHEL family so it doesn't conflict with the cookbook's.
-* Added `php5.conf.erb` template for `mod_php5` recipe.
-* Create the run state directory for `mod_fcgid` to prevent a startup error on RHEL version 6.
-* New attribute `node['apache']['lib_dir']` to handle lib vs lib64 on RHEL family distributions.
-* New attribute `node['apache']['group']`.
-* Scientific Linux support added.
-* Use a file resource instead of the generate-module-list executed perl script on RHEL family.
-* "default" site can now be disabled.
-* web_app now has an "enable" parameter.
-* Support for dav_fs apache module.
-* Tickets resolved in this release: COOK-754, COOK-753, COOK-665, COOK-624, COOK-579, COOK-519, COOK-518
-* Fix node references in template for a2dissite
-* Use proper user and group attributes on files and templates.
-* Replace the anemic README.rdoc with this new and improved superpowered README.md :).
 
 License and Authors
 ===================
