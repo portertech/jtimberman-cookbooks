@@ -22,4 +22,8 @@ action :create do
 end
 
 action :delete do
+  file "/etc/rsyslog.d/60-#{new_resource.name}.conf" do
+    action :delete
+    notifies :restart, resources(:service => "rsyslog"), :delayed
+  end
 end
