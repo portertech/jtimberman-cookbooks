@@ -20,5 +20,11 @@
 
 actions :create, :delete
 
-attribute :name, :kind_of => String, :name_attribute => true
-attribute :rotate, :kind_of => Integer
+attribute :name,       :kind_of => String, :name_attribute => true
+attribute :path,       :kind_of => String
+attribute :mode,       :regex => /^0?\d{3,4}$/
+attribute :owner,      :regex => [ /^([a-z]|[A-Z]|[0-9]|_|-)+$/, /^\d+$/ ]
+attribute :group,      :regex => [ /^([a-z]|[A-Z]|[0-9]|_|-)+$/, /^\d+$/ ]
+attribute :rotate,     :kind_of => Integer
+attribute :programs,   :kind_of => String
+attribute :facilities, :kind_of => String
