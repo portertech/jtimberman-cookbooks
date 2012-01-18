@@ -1,0 +1,4 @@
+$outchannel <%= @name %>, <%= @path %>, <%= @size %>, /etc/rsyslog.d/log_rotation.sh <%= @rotations %> <%= @path %>
+
+if <%= @programs.map{|p| "$programname == '#{p}'"}.join(' or ') %> then $<%= @name %>
+& ~
