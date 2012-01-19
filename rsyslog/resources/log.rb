@@ -32,5 +32,5 @@ attribute :owner,      :regex => [ /^([a-z]|[A-Z]|[0-9]|_|-)+$/, /^\d+$/ ], :def
 attribute :group,      :regex => [ /^([a-z]|[A-Z]|[0-9]|_|-)+$/, /^\d+$/ ], :default => "root"
 attribute :max_size,   :kind_of => Integer, :default => 100
 attribute :rotations,  :kind_of => Integer, :default => 2
-attribute :programs,   :kind_of => String
-attribute :facilities, :kind_of => String
+attribute :programs,   :kind_of => Array
+attribute :facilities, :kind_of => Array
