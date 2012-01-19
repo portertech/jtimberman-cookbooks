@@ -48,8 +48,8 @@ action :create do
       :path => new_resource.path,
       :max_size => new_resource.max_size * 1048576,
       :rotations => new_resource.rotations,
-      :programs => programs,
-      :facilities => facilities
+      :programs => programs.map{|p| "$programname == '#{p}'"}.join(' or '),
+      :facilities => facilities.map{|f| "$syslogfacility-text == '#{f}'"}.join(' or ')
     )
   end
 end

@@ -1,4 +1,4 @@
 $outchannel <%= @name %>, <%= @path %>, <%= @max_size %>, /etc/rsyslog.d/log_rotation.sh <%= @rotations %> <%= @path %>
 
-if <%= @programs.map{|p| "$programname == '#{p}'"}.join(' or ') %><% unless @facilities.empty? %> and (<%= @facilities.map{|f| "$syslogfacility-text == '#{f}'"}.join(' or ') %>)<% end %> then $<%= @name %>
+if <%= @programs %><% unless @facilities.empty? %> and (<%= @facilities %>)<% end %> then $<%= @name %>
 & ~
