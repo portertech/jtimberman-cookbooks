@@ -20,6 +20,7 @@
 
 action :create do
   file "/etc/rsyslog.d/log_rotation.sh" do
+    cookbook "rsyslog"
     mode 0755
   end
 
@@ -27,6 +28,7 @@ action :create do
   facilities = new_resource.facilities.nil? ? [] : new_resource.facilities
 
   template "/etc/rsyslog.d/60-#{new_resource.name}.conf" do
+    cookbook "rsyslog"
     source "output_channel.conf.erb"
     mode 0744
     variables(
