@@ -19,6 +19,39 @@
 #
 
 action :create do
+  file "/etc/rsyslog.d/log_rotation.sh" do
+    mode 0755
+  end
+
+  programs = case
+  when new_resource.programs.is_a?(Array)
+    new_resource.programs
+  when new_resource.programs.is_a?(String)
+    [new_resource.programs]
+  else
+    [new_resource.name]
+  end
+
+  facilities = case
+  when new_resource.facilities.is_a?(Array)
+    new_resource.facilities
+  when new_resource.facilities.is_a?(String)
+    [new_resource.facilities]
+  else
+    Array.new
+  end
+
+  template "/etc/rsyslog.d/60-#{new_resource.name}.conf" do
+    mode 0744
+    variables(
+      :name => new_resource.name,
+      :path => new_resource.path,
+      :max_size => new_resource.max_size * 1048576,
+      :rotations => new_resource.rotations,
+      :programs => programs,
+      :facilities => facilities
+    )
+  end
 end
 
 action :delete do
