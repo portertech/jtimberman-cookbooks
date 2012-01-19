@@ -23,25 +23,11 @@ action :create do
     mode 0755
   end
 
-  programs = case
-  when new_resource.programs.is_a?(Array)
-    new_resource.programs
-  when new_resource.programs.is_a?(String)
-    [new_resource.programs]
-  else
-    [new_resource.name]
-  end
-
-  facilities = case
-  when new_resource.facilities.is_a?(Array)
-    new_resource.facilities
-  when new_resource.facilities.is_a?(String)
-    [new_resource.facilities]
-  else
-    Array.new
-  end
+  programs = new_resource.programs.nil? ? [new_resource.name] : new_resource.programs
+  facilities = new_resource.facilities.nil? ? [] : new_resource.facilities
 
   template "/etc/rsyslog.d/60-#{new_resource.name}.conf" do
+    source "output_channel.conf.erb"
     mode 0744
     variables(
       :name => new_resource.name,
