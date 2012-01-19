@@ -19,7 +19,7 @@
 #
 
 action :create do
-  file "/etc/rsyslog.d/log_rotation.sh" do
+  cookbook_file "/etc/rsyslog.d/log_rotation.sh" do
     cookbook "rsyslog"
     mode 0755
   end
