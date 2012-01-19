@@ -51,6 +51,7 @@ action :create do
       :programs => programs.map{|p| "$programname == '#{p}'"}.join(' or '),
       :facilities => facilities.map{|f| "$syslogfacility-text == '#{f}'"}.join(' or ')
     )
+    notifies :restart, resources(:service => "rsyslog"), :delayed
   end
 end
 
