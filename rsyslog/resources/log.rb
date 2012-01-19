@@ -2,7 +2,7 @@
 # Cookbook Name:: rsyslog
 # Resource:: rsyslog_log
 #
-# Copyright 2012, Sean Porter
+# Copyright 2012, Sonian Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
